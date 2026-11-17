@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NUDO Concierge</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="NUDO — a private brand and digital concierge. Every commission is tailored. Request a consultation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: a private letter more than a website. Narrow measure, wide margins, long vertical rests; four story chapters; one lacquer field; Rosso only as signature. Single brand look by choice. */
+:root{
+  --porc:#F2F0EA; --ivory:#F8F6F1; --sand:#E9E4DA; --noir:#1E1717; --rosso:#CE1B17; --rosso-deep:#9E120E;
+  --nudo:#C9A189; --pietra:#7A746F; --ink-2:#4B4542;
+  --hair:rgba(30,23,23,.14); --hair-strong:rgba(30,23,23,.45); --hair-light:rgba(242,240,234,.24);
+  --display:"Instrument Serif","Times New Roman",Times,serif;
+  --body:"Inter","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono","Courier New",monospace;
+  --margin:clamp(28px,9vw,160px);
+  --rest:clamp(120px,17vw,240px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--ivory);color:var(--noir);font-family:var(--body);font-weight:300;font-size:17.5px;line-height:1.75;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:calc(var(--margin) - 16px)}
+.mono{font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:400}
+.ser{font-family:var(--display);font-style:italic;font-weight:400}
+a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,label.chip:focus-within{outline:1.5px solid var(--rosso);outline-offset:5px}
+svg.logo{display:block;height:auto}
+.sq{display:inline-block;width:.3em;height:.3em;background:var(--rosso);vertical-align:.1em;margin-left:.06em}
+p{margin:0}
+
+/* the one call to action */
+.cta{display:inline-flex;align-items:center;gap:16px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;color:var(--noir);padding:0 0 10px;border-bottom:1px solid var(--noir);transition:color .3s,border-color .3s}
+.cta .arr{font-family:var(--body);font-size:16px;letter-spacing:0;transition:transform .3s}
+.cta:hover{color:var(--rosso);border-color:var(--rosso)}
+.cta:hover .arr{transform:translateX(6px)}
+.cta.solid{background:var(--noir);color:var(--porc);border:1px solid var(--noir);padding:18px 28px}
+.cta.solid:hover{background:var(--rosso);border-color:var(--rosso);color:var(--porc)}
+.cta.light{color:var(--porc);border-color:var(--porc)}
+.cta.light:hover{color:var(--nudo);border-color:var(--nudo)}
+
+/* header */
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:rgba(248,246,241,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--ivory)}
+header.site .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-block:24px}
+header.site .home svg{height:19px;width:auto}
+header.site .cta{padding-bottom:6px}
+header.site .cta span.short{display:none}
+
+/* opening */
+.opening .wrap{padding-block:clamp(70px,11vw,160px) var(--rest)}
+.opening .meaning{display:flex;gap:22px;align-items:baseline;flex-wrap:wrap;color:var(--pietra)}
+.opening .meaning .ser{font-size:26px;color:var(--noir)}
+.opening h1{font-family:var(--display);font-weight:400;font-size:clamp(52px,7.6vw,124px);line-height:.96;letter-spacing:-.012em;margin:clamp(40px,6vw,72px) 0 0;max-width:12ch;text-wrap:balance}
+.opening h1 em{color:var(--rosso)}
+.opening .lede{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);margin-top:clamp(56px,8vw,112px);align-items:end}
+.opening .lede p{font-size:clamp(18px,1.5vw,21px);max-width:34ch;color:var(--ink-2)}
+.opening .lede .act{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
+.opening .lede .act .mono{color:var(--pietra)}
+
+/* a quiet rule with the red square, used between movements */
+.mark{display:flex;align-items:center;gap:18px;color:var(--pietra)}
+.mark::before{content:"";width:9px;height:9px;background:var(--rosso);flex:none}
+.mark::after{content:"";flex:1;height:1px;background:var(--hair)}
+
+/* chapters */
+.story .wrap{padding-block:0 var(--rest)}
+.story-intro{max-width:760px;margin:clamp(60px,8vw,110px) 0 clamp(80px,12vw,170px)}
+.story-intro h2{font-family:var(--display);font-weight:400;font-size:clamp(40px,5vw,72px);line-height:1.02;margin:0 0 30px;text-wrap:balance}
+.story-intro p{color:var(--ink-2);max-width:52ch}
+.chapter{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,6fr) minmax(0,3fr);gap:clamp(24px,4vw,64px);align-items:start;padding-block:clamp(48px,6vw,84px);border-top:1px solid var(--hair)}
+.chapter:last-child{border-bottom:1px solid var(--hair)}
+.chapter .num{font-family:var(--display);font-style:italic;font-size:clamp(64px,7vw,110px);line-height:.8;color:var(--rosso)}
+.chapter h3{font-family:var(--display);font-weight:400;font-size:clamp(34px,3.6vw,52px);line-height:1;margin:0 0 20px}
+.chapter p{color:var(--ink-2);max-width:46ch}
+.chapter .aside{color:var(--pietra);padding-top:12px}
+.chapter .aside .mono{display:block;margin-bottom:8px}
+.chapter .aside .ser{font-size:21px;line-height:1.35;color:var(--noir)}
+
+/* lacquer */
+.lacquer{position:relative;overflow:hidden;background:var(--rosso);color:var(--porc)}
+.lacquer::before{content:"";position:absolute;inset:-30%;background:
+  radial-gradient(55% 45% at 25% 25%,rgba(255,255,255,.20),transparent 60%),
+  radial-gradient(50% 40% at 85% 85%,rgba(0,0,0,.26),transparent 65%),
+  linear-gradient(118deg,transparent 40%,rgba(255,255,255,.09) 50%,transparent 60%);
+  animation:sheen 16s ease-in-out infinite alternate;pointer-events:none}
+@keyframes sheen{from{transform:translate3d(-4%,-3%,0)}to{transform:translate3d(4%,3%,0)}}
+.lacquer .wrap{position:relative;padding-block:var(--rest)}
+.lacquer .mono{opacity:.85}
+.lacquer blockquote{margin:36px 0 0;font-family:var(--display);font-weight:400;font-size:clamp(46px,6.4vw,104px);line-height:1;max-width:14ch}
+.lacquer blockquote span{display:block}
+.lacquer blockquote span:nth-child(2){padding-left:clamp(28px,8vw,140px);font-style:italic}
+.lacquer .foot{margin-top:clamp(56px,8vw,96px);display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.lacquer .foot p{max-width:40ch;font-size:16px;opacity:.92}
+
+/* what we look after */
+.care .wrap{padding-block:var(--rest)}
+.care-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(36px,6vw,110px);align-items:start}
+.care h2{font-family:var(--display);font-weight:400;font-size:clamp(40px,4.6vw,68px);line-height:1.02;margin:24px 0 0;text-wrap:balance}
+.care-list{list-style:none;margin:0;padding:0}
+.care-list li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;padding:30px 0;border-top:1px solid var(--hair);align-items:baseline}
+.care-list li:last-child{border-bottom:1px solid var(--hair)}
+.care-list .t{font-family:var(--display);font-size:clamp(25px,2.2vw,31px);line-height:1.15}
+.care-list p{color:var(--ink-2);font-size:16px}
+
+/* concierge promises */
+.concierge{background:var(--sand)}
+.concierge .wrap{padding-block:var(--rest)}
+.concierge h2{font-family:var(--display);font-weight:400;font-size:clamp(42px,5.4vw,84px);line-height:1;margin:28px 0 0;max-width:15ch;text-wrap:balance}
+.promises{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(24px,3vw,44px);margin-top:clamp(64px,9vw,120px)}
+.promises div{border-top:1px solid var(--hair-strong);padding-top:22px}
+.promises .ser{font-size:27px;line-height:1.1;display:block;margin-bottom:12px}
+.promises p{color:var(--ink-2);font-size:15.5px}
+
+/* request */
+.request .wrap{padding-block:var(--rest)}
+.req-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(36px,6vw,110px);align-items:start}
+.req-intro{position:sticky;top:110px}
+.req-intro h2{font-family:var(--display);font-weight:400;font-size:clamp(46px,6vw,96px);line-height:.96;margin:26px 0 0;text-wrap:balance}
+.req-intro h2 em{color:var(--rosso)}
+.req-intro p{margin-top:28px;color:var(--ink-2);max-width:36ch}
+.req-intro .sig{margin-top:44px;font-family:var(--display);font-style:italic;font-size:24px}
+.req-intro .sig + .mono{color:var(--pietra);display:block;margin-top:6px}
+.panel{background:#FCFBF8;border:1px solid var(--hair);padding:clamp(28px,4.4vw,64px)}
+.progress{display:flex;justify-content:space-between;gap:12px;color:var(--pietra);margin-bottom:14px}
+.bar{height:1px;background:var(--hair);margin-bottom:40px}
+.bar i{display:block;height:2px;margin-top:-.5px;background:var(--rosso);width:33%;transition:width .5s}
+.step h3{font-family:var(--display);font-weight:400;font-size:clamp(32px,3.2vw,44px);line-height:1.02;margin:0 0 10px}
+.step .hint{color:var(--pietra);font-size:16px;margin-bottom:32px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+label.chip{position:relative;display:inline-flex;align-items:center;gap:10px;border:1px solid var(--hair-strong);padding:11px 18px;font-size:15px;font-weight:400;cursor:pointer;user-select:none;transition:background .25s,color .25s,border-color .25s}
+label.chip input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+label.chip:hover{border-color:var(--noir)}
+label.chip:has(input:checked){background:var(--noir);border-color:var(--noir);color:var(--porc)}
+label.chip:has(input:checked)::before{content:"";width:6px;height:6px;background:var(--rosso)}
+.group{margin-bottom:34px}
+.group > .mono{display:block;color:var(--pietra);margin-bottom:14px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 28px}
+.fields .full{grid-column:1/-1}
+.field label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--pietra);margin-bottom:4px}
+.field input,.field textarea{width:100%;font:inherit;font-weight:400;font-size:17px;color:var(--noir);background:transparent;border:0;border-bottom:1px solid var(--hair-strong);padding:10px 0;border-radius:0;transition:border-color .25s}
+.field textarea{min-height:90px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-bottom-color:var(--rosso);box-shadow:0 1px 0 var(--rosso)}
+.req{color:var(--rosso)}
+.consent{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;color:var(--ink-2);margin-top:28px}
+.consent input{margin-top:5px;accent-color:var(--noir);width:15px;height:15px;flex:none}
+.err{color:var(--rosso-deep);font-size:14.5px;margin-top:18px;min-height:1.3em}
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:28px;padding-top:28px;border-top:1px solid var(--hair)}
+.back{background:none;border:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--pietra);cursor:pointer;padding:10px 0}
+.back:hover{color:var(--noir)}
+.nav-row .cta{cursor:pointer;font-family:var(--mono)}
+.done .mono{color:var(--rosso)}
+.done h3{font-family:var(--display);font-weight:400;font-size:clamp(40px,4.6vw,62px);line-height:1;margin:16px 0 14px}
+.done > p{color:var(--ink-2)}
+.done .next{list-style:none;margin:32px 0;padding:0}
+.done .next li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:16px 0;border-top:1px solid var(--hair);font-size:16px}
+.done .next li:last-child{border-bottom:1px solid var(--hair)}
+.done .next .n{font-family:var(--display);font-style:italic;color:var(--rosso);font-size:24px;line-height:1}
+.summary{background:var(--sand);padding:18px 20px;font-size:13px;white-space:pre-wrap;font-family:var(--mono);line-height:1.75;max-height:240px;overflow:auto}
+.done-actions{display:flex;flex-wrap:wrap;gap:24px;align-items:center;margin-top:22px}
+.textbtn{background:none;border:0;border-bottom:1px solid var(--hair-strong);font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--noir);padding:0 0 6px;cursor:pointer}
+.textbtn:hover{color:var(--rosso);border-color:var(--rosso)}
+.preview-note{font-size:14px;color:var(--pietra);margin-top:18px}
+
+/* closing */
+.closing{background:var(--noir);color:var(--porc)}
+.closing .wrap{padding-block:var(--rest) 44px}
+.closing .meaning{display:flex;gap:22px;align-items:baseline;flex-wrap:wrap;color:var(--nudo)}
+.closing .meaning .ser{font-size:26px;color:var(--porc)}
+.closing h2{font-family:var(--display);font-weight:400;font-size:clamp(46px,6.4vw,104px);line-height:.98;margin:36px 0 52px;max-width:13ch;text-wrap:balance}
+.closing h2 em{color:var(--nudo)}
+.contact-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px;margin-top:clamp(80px,11vw,150px);border-top:1px solid var(--hair-light);padding-top:30px}
+.contact-row .mono{display:block;color:var(--nudo);margin-bottom:8px}
+.contact-row .val{font-family:var(--display);font-size:clamp(24px,2.3vw,32px);line-height:1.15;user-select:all;word-break:break-word}
+.contact-row a.val{text-decoration:none}
+.contact-row a.val:hover{color:var(--nudo)}
+.copy{display:block;margin-top:10px;background:none;border:0;border-bottom:1px solid var(--hair-light);color:rgba(242,240,234,.8);font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;padding:0 0 4px;cursor:pointer}
+.copy:hover{color:var(--porc);border-color:var(--porc)}
+.sign{margin-top:clamp(90px,12vw,170px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.sign svg{width:clamp(150px,20vw,260px)}
+.sign .mono{color:var(--pietra)}
+
+/* phone bar */
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(30,23,23,.97);color:var(--porc);display:none;align-items:center;justify-content:space-between;gap:12px;padding:14px max(20px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));transform:translateY(110%);transition:transform .35s}
+.mbar.show{transform:none}
+.mbar .t{font-family:var(--display);font-style:italic;font-size:20px;line-height:1.1}
+.mbar a{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;color:var(--porc);border-bottom:1px solid var(--rosso);padding-bottom:5px}
+
+@media (max-width:980px){
+  .opening .lede,.care-grid,.req-grid{grid-template-columns:minmax(0,1fr)}
+  .chapter{grid-template-columns:minmax(0,1fr)}
+  .chapter .num{font-size:64px}
+  .promises{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .req-intro{position:static}
+  .contact-row{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  :root{--margin:28px;--rest:104px}
+  header.site .cta span.long{display:none}
+  header.site .cta span.short{display:inline}
+  .care-list li{grid-template-columns:minmax(0,1fr);gap:8px}
+  .promises{grid-template-columns:minmax(0,1fr)}
+  .fields{grid-template-columns:minmax(0,1fr)}
+  .mbar{display:flex}
+  body{padding-bottom:76px}
+}
+</style>
+</head>
+<body>
+
+<!-- Netlify Forms: static copy so Netlify registers the form when the site is hosted there -->
+<form name="concierge" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input name="bot-field"><input name="need"><input name="brand"><input name="link"><input name="scope"><input name="start"><input name="name"><input name="email"><input name="phone"><input name="contact"><input name="days"><input name="time"><input name="timezone"><textarea name="message"></textarea>
+</form>
+
+<header class="band site">
+  <div class="wrap">
+    <a class="home" href="#top" aria-label="NUDO, back to top"><svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="319 321.18 561 157.64" role="img" aria-label="NUDO"><title>NUDO</title><path fill="#1E1717" d="M 574.789062 325.296875 L 551.378906 325.296875 C 551.304688 325.296875 551.230469 325.304688 551.160156 325.324219 C 547.289062 326.183594 546.476562 328.570312 546.476562 330.417969 L 546.476562 400.867188 C 546.476562 410.117188 545.6875 417.535156 544.132812 422.90625 C 542.332031 428.871094 539.324219 433.359375 535.1875 436.253906 C 530.757812 439.4375 524.390625 441.050781 516.261719 441.050781 C 505.109375 441.050781 497.078125 437.414062 492.382812 430.226562 C 488.179688 423.921875 486.046875 414.042969 486.046875 400.867188 L 486.046875 330.417969 C 486.046875 330.367188 486.042969 330.3125 486.035156 330.261719 C 485.386719 326.160156 483.019531 325.296875 481.144531 325.296875 L 417.328125 325.296875 C 417.253906 325.296875 417.179688 325.304688 417.109375 325.324219 C 413.238281 326.183594 412.425781 328.570312 412.425781 330.417969 L 412.425781 424.859375 L 360.347656 328.019531 L 360.128906 327.582031 C 359.84375 327.019531 358.980469 325.296875 357.5 325.296875 L 323.902344 325.296875 C 323.828125 325.296875 323.753906 325.304688 323.683594 325.324219 C 319.8125 326.183594 319 328.570312 319 330.417969 L 319 469.796875 C 319 469.851562 319.003906 469.910156 319.011719 469.960938 C 319.667969 473.878906 322.03125 474.699219 323.902344 474.699219 L 347.3125 474.699219 C 347.367188 474.699219 347.421875 474.695312 347.476562 474.6875 C 351.394531 474.035156 352.214844 471.667969 352.214844 469.796875 L 352.214844 375.347656 L 404.222656 471.847656 C 404.269531 472.058594 404.371094 472.300781 404.574219 472.542969 C 405.320312 473.972656 406.253906 474.699219 407.355469 474.699219 L 440.738281 474.699219 C 440.792969 474.699219 440.847656 474.695312 440.902344 474.6875 C 444.820312 474.035156 445.640625 471.667969 445.640625 469.796875 L 445.640625 359.78125 C 445.640625 359.199219 446.113281 358.730469 446.691406 358.730469 L 451.785156 358.730469 C 452.363281 358.730469 452.832031 359.199219 452.832031 359.78125 L 452.832031 400.867188 C 452.832031 416.953125 454.527344 430.113281 457.875 440 C 461.832031 451.289062 468.386719 459.921875 477.359375 465.660156 C 486.867188 471.660156 499.953125 474.699219 516.261719 474.699219 C 533.128906 474.699219 546.5 471.808594 556.019531 466.097656 C 564.859375 460.648438 571.199219 452.152344 574.871094 440.84375 C 578.070312 431.105469 579.691406 417.652344 579.691406 400.867188 L 579.691406 330.417969 C 579.691406 330.367188 579.6875 330.3125 579.679688 330.261719 C 579.03125 326.160156 576.660156 325.296875 574.789062 325.296875 "/><path fill="#1E1717" d="M 680.402344 400 C 680.402344 412.679688 676.847656 422.800781 669.839844 430.089844 C 669.839844 430.089844 669.835938 430.09375 669.835938 430.09375 C 662.695312 437.652344 652.800781 441.484375 640.429688 441.484375 L 621.265625 441.484375 C 620.910156 441.484375 620.621094 441.195312 620.621094 440.84375 L 620.621094 359.371094 C 620.621094 359.019531 620.910156 358.730469 621.265625 358.730469 L 640.429688 358.730469 C 652.226562 358.730469 661.976562 362.636719 669.40625 370.34375 C 676.703125 377.921875 680.402344 387.898438 680.402344 400 M 823.398438 400 C 823.398438 407.613281 821.683594 414.972656 818.300781 421.878906 C 814.78125 428.773438 809.929688 434.410156 803.90625 438.617188 C 797.308594 442.964844 789.910156 445.171875 781.910156 445.171875 C 773.621094 445.171875 766.078125 442.964844 759.492188 438.621094 C 753.460938 434.554688 748.6875 428.925781 745.304688 421.878906 C 741.921875 415.113281 740.207031 407.753906 740.207031 400 C 740.207031 392.539062 742.066406 385.257812 745.738281 378.335938 C 749.253906 371.304688 754.101562 365.671875 760.132812 361.597656 C 766.730469 357.25 774.058594 355.046875 781.910156 355.046875 C 789.757812 355.046875 797.011719 357.246094 803.472656 361.597656 C 809.652344 365.675781 814.566406 371.308594 818.085938 378.34375 C 821.609375 385.257812 823.398438 392.542969 823.398438 400 M 844.140625 361.378906 C 837.875 349.4375 829.230469 339.761719 818.453125 332.621094 C 807.203125 325.03125 794.910156 321.179688 781.910156 321.179688 C 768.914062 321.179688 756.546875 325.027344 745.152344 332.621094 C 734.519531 339.761719 725.875 349.4375 719.464844 361.382812 C 716.753906 366.496094 714.585938 371.820312 713.019531 377.207031 C 712.894531 377.640625 712.535156 377.683594 712.394531 377.667969 C 712.246094 377.664062 711.894531 377.605469 711.796875 377.15625 C 708.867188 363.445312 702.957031 352.21875 694.230469 343.78125 C 681.664062 331.808594 663.714844 325.664062 640.867188 325.515625 L 615.71875 325.296875 L 590.574219 325.296875 C 590.507812 325.296875 590.441406 325.304688 590.378906 325.316406 C 587.792969 325.839844 587.40625 327.515625 587.40625 328.464844 L 587.40625 471.53125 C 587.40625 471.597656 587.414062 471.664062 587.425781 471.726562 C 587.941406 474.3125 589.621094 474.699219 590.574219 474.699219 L 640.652344 474.699219 C 680.988281 474.582031 704.953125 457.261719 711.882812 423.21875 C 711.976562 422.769531 712.332031 422.707031 712.476562 422.699219 C 712.632812 422.695312 712.980469 422.726562 713.109375 423.164062 C 714.664062 428.480469 716.804688 433.753906 719.46875 438.839844 C 725.875 450.78125 734.515625 460.457031 745.164062 467.601562 C 756.550781 475.046875 768.914062 478.820312 781.910156 478.820312 C 794.910156 478.820312 807.203125 475.042969 818.445312 467.597656 C 829.230469 460.457031 837.878906 450.777344 844.136719 438.839844 C 850.6875 426.609375 854.011719 413.542969 854.011719 400 C 854.011719 386.457031 850.6875 373.464844 844.140625 361.378906 "/><path fill="#CE1B17" d="M 878.976562 441.484375 L 844.6875 441.484375 C 844.121094 441.484375 843.664062 441.941406 843.664062 442.507812 L 843.664062 476.792969 C 843.664062 477.359375 844.121094 477.820312 844.6875 477.820312 L 878.976562 477.820312 C 879.542969 477.820312 880 477.359375 880 476.792969 L 880 442.507812 C 880 441.941406 879.542969 441.484375 878.976562 441.484375 "/></svg></a>
+    <a class="cta" href="#request" data-req><span class="long">Request a consultation</span><span class="short">Request</span><span class="arr" aria-hidden="true">→</span></a>
+  </div>
+</header>
+
+<main id="top">
+<section class="band opening">
+  <div class="wrap">
+    <div class="meaning"><span class="ser">nudo</span><span class="mono">it. naked &nbsp;·&nbsp; es. knot</span></div>
+    <h1>Your brand, considered <em>personally.</em></h1>
+    <div class="lede">
+      <p>NUDO is a private house for brand identity and digital presence. We work with few clients, and we begin every relationship the same way: by listening.</p>
+      <div class="act">
+        <a class="cta solid" href="#request" data-req>Request a consultation <span class="arr" aria-hidden="true">→</span></a>
+        <span class="mono">A founder replies personally</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band story">
+  <div class="wrap">
+    <div class="mark mono">How a commission unfolds</div>
+    <div class="story-intro">
+      <h2>Tailored, from the first conversation.</h2>
+      <p>There is no package and no template. Each brand we take on is guided by one founder, at the pace the brand needs, in four movements.</p>
+    </div>
+    <div class="chapters">
+      <article class="chapter">
+        <span class="num">i.</span>
+        <div><h3>We listen.</h3><p>A conversation, not a brief. We want to understand where you come from, what you protect and where you intend to go.</p></div>
+        <div class="aside"><span class="mono">You receive</span><span class="ser">A first point of view, in the room.</span></div>
+      </article>
+      <article class="chapter">
+        <span class="num">ii.</span>
+        <div><h3>We strip back.</h3><p>We remove what is borrowed until what is true about your brand is plain to see. This is the <span class="ser">nudo</span>: the brand, naked.</p></div>
+        <div class="aside"><span class="mono">You receive</span><span class="ser">One idea your whole team can say.</span></div>
+      </article>
+      <article class="chapter">
+        <span class="num">iii.</span>
+        <div><h3>We bind.</h3><p>That idea becomes everything people see: the mark, the images, the website, the way you appear every day. Tied together like a knot, so it does not come undone.</p></div>
+        <div class="aside"><span class="mono">You receive</span><span class="ser">A complete brand, finished by hand.</span></div>
+      </article>
+      <article class="chapter">
+        <span class="num">iv.</span>
+        <div><h3>We stay.</h3><p>A brand is never finished on launch day. We remain beside you for campaigns, new chapters and the evolution of your digital presence, for as long as you need us.</p></div>
+        <div class="aside"><span class="mono">You receive</span><span class="ser">A creative director on call.</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band lacquer" aria-label="Manifesto">
+  <div class="wrap">
+    <span class="mono">Manifesto</span>
+    <blockquote><span>Remove what is unnecessary.</span><span>Keep what is true.</span></blockquote>
+    <div class="foot">
+      <p>Make it unforgettable. Build it to endure. Four lines we hold every commission to.</p>
+      <a class="cta light" href="#request" data-req>Request a consultation <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="band care">
+  <div class="wrap">
+    <div class="care-grid">
+      <div><div class="mark mono">What we look after</div><h2>Everything your brand needs to be seen as it should.</h2></div>
+      <ul class="care-list">
+        <li><span class="t">What your brand stands for</span><p>Its position, its name and the way it speaks.</p></li>
+        <li><span class="t">How it is recognised</span><p>A visual identity people know before they read the name.</p></li>
+        <li><span class="t">The images that carry it</span><p>Campaigns, photography and film, directed with intent.</p></li>
+        <li><span class="t">Its digital home</span><p>A website or online boutique with the finish of a flagship.</p></li>
+        <li><span class="t">Its everyday presence</span><p>Social media and launches that stay true to the idea.</p></li>
+        <li><span class="t">A creative eye on call</span><p>Ongoing direction as the brand grows.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band concierge">
+  <div class="wrap">
+    <div class="mark mono">The concierge</div>
+    <h2>One person who knows your brand by heart.</h2>
+    <div class="promises">
+      <div><span class="ser">A founder, always</span><p>The person you meet is the person who leads your brand.</p></div>
+      <div><span class="ser">Your time zone</span><p>We work around your calendar, wherever you are.</p></div>
+      <div><span class="ser">Absolute discretion</span><p>Your work is shown only when you say so.</p></div>
+      <div><span class="ser">Beyond launch</span><p>We stay close for every new chapter.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band request" id="request">
+  <div class="wrap">
+    <div class="req-grid">
+      <div class="req-intro">
+        <div class="mark mono">Request a consultation</div>
+        <h2>Tell us a little about <em>you.</em></h2>
+        <p>Three short steps. A founder reads every request personally and writes back to arrange a twenty-minute conversation at a time that suits you.</p>
+        <p class="sig">The founders of NUDO</p>
+        <span class="mono">By private consultation</span>
+      </div>
+
+      <div class="panel" aria-live="polite">
+        <form id="bf" novalidate>
+          <div class="progress"><span class="mono" id="stepLabel">Step 1 of 3</span><span class="mono" id="stepName">Your brand</span></div>
+          <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+
+          <div class="step" data-step="1" data-name="Your brand">
+            <h3>How can we help?</h3>
+            <p class="hint">Choose what feels closest. We will refine it together.</p>
+            <div class="group"><span class="mono">You are looking for</span>
+              <div class="chips" role="group" aria-label="What you need">
+                <label class="chip"><input type="checkbox" name="need" value="A new brand identity">A new brand identity</label>
+                <label class="chip"><input type="checkbox" name="need" value="To evolve an existing brand">To evolve an existing brand</label>
+                <label class="chip"><input type="checkbox" name="need" value="A website or online boutique">A website or online boutique</label>
+                <label class="chip"><input type="checkbox" name="need" value="Campaign and imagery">Campaign and imagery</label>
+                <label class="chip"><input type="checkbox" name="need" value="A creative director on call">A creative director on call</label>
+                <label class="chip"><input type="checkbox" name="need" value="Not sure yet">Not sure yet</label>
+              </div></div>
+            <div class="fields">
+              <div class="field"><label for="f-brand">Brand name <span class="req">*</span></label><input id="f-brand" name="brand" autocomplete="organization"></div>
+              <div class="field"><label for="f-link">Website or Instagram</label><input id="f-link" name="link" placeholder="@yourbrand"></div>
+            </div>
+          </div>
+
+          <div class="step" data-step="2" data-name="Your moment" hidden>
+            <h3>Where is your brand today?</h3>
+            <p class="hint">So the first conversation starts in the right place.</p>
+            <div class="group"><span class="mono">The commission</span>
+              <div class="chips" role="radiogroup" aria-label="Scope">
+                <label class="chip"><input type="radio" name="scope" value="A single project">A single project</label>
+                <label class="chip"><input type="radio" name="scope" value="A complete brand">A complete brand</label>
+                <label class="chip"><input type="radio" name="scope" value="An ongoing partnership">An ongoing partnership</label>
+                <label class="chip"><input type="radio" name="scope" value="Not sure yet">Not sure yet</label>
+              </div></div>
+            <div class="group"><span class="mono">You would like to begin</span>
+              <div class="chips" role="radiogroup" aria-label="Ideal start">
+                <label class="chip"><input type="radio" name="start" value="As soon as possible">As soon as possible</label>
+                <label class="chip"><input type="radio" name="start" value="In the coming months">In the coming months</label>
+                <label class="chip"><input type="radio" name="start" value="Simply exploring">Simply exploring</label>
+              </div></div>
+          </div>
+
+          <div class="step" data-step="3" data-name="Your details" hidden>
+            <h3>How shall we reach you?</h3>
+            <p class="hint">We write back personally. <span id="tzNote"></span></p>
+            <div class="fields">
+              <div class="field"><label for="f-name">Your name <span class="req">*</span></label><input id="f-name" name="name" autocomplete="name"></div>
+              <div class="field"><label for="f-email">Email <span class="req">*</span></label><input id="f-email" name="email" type="email" autocomplete="email"></div>
+              <div class="field full"><label for="f-phone">Phone or WhatsApp</label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
+            </div>
+            <div class="group" style="margin-top:30px"><span class="mono">Preferred way to talk</span>
+              <div class="chips" role="radiogroup" aria-label="Preferred contact">
+                <label class="chip"><input type="radio" name="contact" value="Video call" checked>Video call</label>
+                <label class="chip"><input type="radio" name="contact" value="Phone call">Phone call</label>
+                <label class="chip"><input type="radio" name="contact" value="WhatsApp">WhatsApp</label>
+              </div></div>
+            <div class="group"><span class="mono">Days that suit you</span>
+              <div class="chips" role="group" aria-label="Days">
+                <label class="chip"><input type="checkbox" name="days" value="Mon">Mon</label>
+                <label class="chip"><input type="checkbox" name="days" value="Tue">Tue</label>
+                <label class="chip"><input type="checkbox" name="days" value="Wed">Wed</label>
+                <label class="chip"><input type="checkbox" name="days" value="Thu">Thu</label>
+                <label class="chip"><input type="checkbox" name="days" value="Fri">Fri</label>
+              </div></div>
+            <div class="group"><span class="mono">Time of day</span>
+              <div class="chips" role="group" aria-label="Time of day">
+                <label class="chip"><input type="checkbox" name="time" value="Morning">Morning</label>
+                <label class="chip"><input type="checkbox" name="time" value="Afternoon">Afternoon</label>
+                <label class="chip"><input type="checkbox" name="time" value="Evening">Evening</label>
+              </div></div>
+            <div class="fields"><div class="field full"><label for="f-msg">Anything you would like us to know</label><textarea id="f-msg" name="message"></textarea></div></div>
+            <label class="consent"><input type="checkbox" id="f-consent">I agree that NUDO may use these details to reply to my request.</label>
+          </div>
+
+          <p class="err" id="err" role="alert"></p>
+          <div class="nav-row">
+            <button class="back" type="button" id="backBtn" hidden>← Back</button>
+            <span></span>
+            <button class="cta solid" type="submit" id="nextBtn">Continue <span class="arr" aria-hidden="true">→</span></button>
+          </div>
+        </form>
+
+        <div class="done" id="done" hidden>
+          <span class="mono" id="doneLabel">Request received</span>
+          <h3 id="doneTitle">Thank you.</h3>
+          <p id="doneText">Your request is with us.</p>
+          <ol class="next">
+            <li><span class="n">i.</span><span>A founder reads your request and looks at your brand.</span></li>
+            <li><span class="n">ii.</span><span>We write to you to arrange your conversation.</span></li>
+            <li><span class="n">iii.</span><span>After we talk, we write a proposal for your brand alone.</span></li>
+          </ol>
+          <div id="fallback" hidden>
+            <div class="summary" id="summary"></div>
+            <div class="done-actions">
+              <a class="cta solid" id="mailBtn" href="#">Send by email <span class="arr" aria-hidden="true">→</span></a>
+              <button class="textbtn" type="button" id="copyBtn">Copy request</button>
+            </div>
+            <p class="preview-note" id="fbNote"></p>
+          </div>
+          <div class="done-actions" id="calRow" hidden><a class="cta solid" id="calBtn" href="#" target="_blank" rel="noopener">Choose your time <span class="arr" aria-hidden="true">→</span></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band closing">
+  <div class="wrap">
+    <div class="meaning"><span class="ser">nudo</span><span class="mono">naked &nbsp;·&nbsp; knot</span></div>
+    <h2>The finest brands begin <em>with a conversation.</em></h2>
+    <a class="cta light" href="#request" data-req>Request a consultation <span class="arr" aria-hidden="true">→</span></a>
+    <div class="contact-row">
+      <div><span class="mono">Write to us</span><div class="val" id="email">studio@nudo.house</div><button class="copy" id="copyEmail" type="button">Copy address</button></div>
+      <div><span class="mono">Instagram</span><a class="val" href="https://www.instagram.com/nudo.house/" target="_blank" rel="noopener">@nudo.house</a></div>
+      <div><span class="mono">Working</span><div class="val">Worldwide, by appointment</div></div>
+    </div>
+    <div class="sign"><svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="319 321.18 561 157.64" role="img" aria-label="NUDO"><title>NUDO</title><path fill="#CE1B17" d="M 574.789062 325.296875 L 551.378906 325.296875 C 551.304688 325.296875 551.230469 325.304688 551.160156 325.324219 C 547.289062 326.183594 546.476562 328.570312 546.476562 330.417969 L 546.476562 400.867188 C 546.476562 410.117188 545.6875 417.535156 544.132812 422.90625 C 542.332031 428.871094 539.324219 433.359375 535.1875 436.253906 C 530.757812 439.4375 524.390625 441.050781 516.261719 441.050781 C 505.109375 441.050781 497.078125 437.414062 492.382812 430.226562 C 488.179688 423.921875 486.046875 414.042969 486.046875 400.867188 L 486.046875 330.417969 C 486.046875 330.367188 486.042969 330.3125 486.035156 330.261719 C 485.386719 326.160156 483.019531 325.296875 481.144531 325.296875 L 417.328125 325.296875 C 417.253906 325.296875 417.179688 325.304688 417.109375 325.324219 C 413.238281 326.183594 412.425781 328.570312 412.425781 330.417969 L 412.425781 424.859375 L 360.347656 328.019531 L 360.128906 327.582031 C 359.84375 327.019531 358.980469 325.296875 357.5 325.296875 L 323.902344 325.296875 C 323.828125 325.296875 323.753906 325.304688 323.683594 325.324219 C 319.8125 326.183594 319 328.570312 319 330.417969 L 319 469.796875 C 319 469.851562 319.003906 469.910156 319.011719 469.960938 C 319.667969 473.878906 322.03125 474.699219 323.902344 474.699219 L 347.3125 474.699219 C 347.367188 474.699219 347.421875 474.695312 347.476562 474.6875 C 351.394531 474.035156 352.214844 471.667969 352.214844 469.796875 L 352.214844 375.347656 L 404.222656 471.847656 C 404.269531 472.058594 404.371094 472.300781 404.574219 472.542969 C 405.320312 473.972656 406.253906 474.699219 407.355469 474.699219 L 440.738281 474.699219 C 440.792969 474.699219 440.847656 474.695312 440.902344 474.6875 C 444.820312 474.035156 445.640625 471.667969 445.640625 469.796875 L 445.640625 359.78125 C 445.640625 359.199219 446.113281 358.730469 446.691406 358.730469 L 451.785156 358.730469 C 452.363281 358.730469 452.832031 359.199219 452.832031 359.78125 L 452.832031 400.867188 C 452.832031 416.953125 454.527344 430.113281 457.875 440 C 461.832031 451.289062 468.386719 459.921875 477.359375 465.660156 C 486.867188 471.660156 499.953125 474.699219 516.261719 474.699219 C 533.128906 474.699219 546.5 471.808594 556.019531 466.097656 C 564.859375 460.648438 571.199219 452.152344 574.871094 440.84375 C 578.070312 431.105469 579.691406 417.652344 579.691406 400.867188 L 579.691406 330.417969 C 579.691406 330.367188 579.6875 330.3125 579.679688 330.261719 C 579.03125 326.160156 576.660156 325.296875 574.789062 325.296875 "/><path fill="#CE1B17" d="M 680.402344 400 C 680.402344 412.679688 676.847656 422.800781 669.839844 430.089844 C 669.839844 430.089844 669.835938 430.09375 669.835938 430.09375 C 662.695312 437.652344 652.800781 441.484375 640.429688 441.484375 L 621.265625 441.484375 C 620.910156 441.484375 620.621094 441.195312 620.621094 440.84375 L 620.621094 359.371094 C 620.621094 359.019531 620.910156 358.730469 621.265625 358.730469 L 640.429688 358.730469 C 652.226562 358.730469 661.976562 362.636719 669.40625 370.34375 C 676.703125 377.921875 680.402344 387.898438 680.402344 400 M 823.398438 400 C 823.398438 407.613281 821.683594 414.972656 818.300781 421.878906 C 814.78125 428.773438 809.929688 434.410156 803.90625 438.617188 C 797.308594 442.964844 789.910156 445.171875 781.910156 445.171875 C 773.621094 445.171875 766.078125 442.964844 759.492188 438.621094 C 753.460938 434.554688 748.6875 428.925781 745.304688 421.878906 C 741.921875 415.113281 740.207031 407.753906 740.207031 400 C 740.207031 392.539062 742.066406 385.257812 745.738281 378.335938 C 749.253906 371.304688 754.101562 365.671875 760.132812 361.597656 C 766.730469 357.25 774.058594 355.046875 781.910156 355.046875 C 789.757812 355.046875 797.011719 357.246094 803.472656 361.597656 C 809.652344 365.675781 814.566406 371.308594 818.085938 378.34375 C 821.609375 385.257812 823.398438 392.542969 823.398438 400 M 844.140625 361.378906 C 837.875 349.4375 829.230469 339.761719 818.453125 332.621094 C 807.203125 325.03125 794.910156 321.179688 781.910156 321.179688 C 768.914062 321.179688 756.546875 325.027344 745.152344 332.621094 C 734.519531 339.761719 725.875 349.4375 719.464844 361.382812 C 716.753906 366.496094 714.585938 371.820312 713.019531 377.207031 C 712.894531 377.640625 712.535156 377.683594 712.394531 377.667969 C 712.246094 377.664062 711.894531 377.605469 711.796875 377.15625 C 708.867188 363.445312 702.957031 352.21875 694.230469 343.78125 C 681.664062 331.808594 663.714844 325.664062 640.867188 325.515625 L 615.71875 325.296875 L 590.574219 325.296875 C 590.507812 325.296875 590.441406 325.304688 590.378906 325.316406 C 587.792969 325.839844 587.40625 327.515625 587.40625 328.464844 L 587.40625 471.53125 C 587.40625 471.597656 587.414062 471.664062 587.425781 471.726562 C 587.941406 474.3125 589.621094 474.699219 590.574219 474.699219 L 640.652344 474.699219 C 680.988281 474.582031 704.953125 457.261719 711.882812 423.21875 C 711.976562 422.769531 712.332031 422.707031 712.476562 422.699219 C 712.632812 422.695312 712.980469 422.726562 713.109375 423.164062 C 714.664062 428.480469 716.804688 433.753906 719.46875 438.839844 C 725.875 450.78125 734.515625 460.457031 745.164062 467.601562 C 756.550781 475.046875 768.914062 478.820312 781.910156 478.820312 C 794.910156 478.820312 807.203125 475.042969 818.445312 467.597656 C 829.230469 460.457031 837.878906 450.777344 844.136719 438.839844 C 850.6875 426.609375 854.011719 413.542969 854.011719 400 C 854.011719 386.457031 850.6875 373.464844 844.140625 361.378906 "/><path fill="#CE1B17" d="M 878.976562 441.484375 L 844.6875 441.484375 C 844.121094 441.484375 843.664062 441.941406 843.664062 442.507812 L 843.664062 476.792969 C 843.664062 477.359375 844.121094 477.820312 844.6875 477.820312 L 878.976562 477.820312 C 879.542969 477.820312 880 477.359375 880 476.792969 L 880 442.507812 C 880 441.941406 879.542969 441.484375 878.976562 441.484375 "/></svg><span class="mono">© MMXXVI NUDO · Raw ideas, refined.</span></div>
+  </div>
+</section>
+</main>
+
+<div class="mbar" id="mbar" aria-hidden="true"><span class="t">By private consultation.</span><a href="#request" data-req tabindex="-1">Request</a></div>
+
+<script>
+(function(){
+  var STUDIO_EMAIL="studio@nudo.house";
+  /* Optional: paste your Cal.com or Calendly link to offer "Choose your time" after a request is sent. */
+  var BOOKING_URL="";
+  var FORM_NAME="concierge";
+
+  var form=document.getElementById('bf'), steps=[].slice.call(form.querySelectorAll('.step')), total=steps.length, cur=1,
+      nextBtn=document.getElementById('nextBtn'), backBtn=document.getElementById('backBtn'), err=document.getElementById('err');
+  var tz=''; try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}
+  if(tz) document.getElementById('tzNote').textContent='Your time zone: '+tz.replace(/_/g,' ')+'.';
+  function vals(n){return [].slice.call(form.querySelectorAll('[name="'+n+'"]:checked')).map(function(i){return i.value})}
+  function val(n){var el=form.querySelector('[name="'+n+'"]');return el?el.value.trim():''}
+  function show(n){
+    cur=n; steps.forEach(function(s){s.hidden=(+s.dataset.step!==n)});
+    document.getElementById('stepLabel').textContent='Step '+n+' of '+total;
+    document.getElementById('stepName').textContent=steps[n-1].dataset.name;
+    document.getElementById('barFill').style.width=(n/total*100)+'%';
+    backBtn.hidden=(n===1);
+    nextBtn.innerHTML=(n===total?'Send request':'Continue')+' <span class="arr" aria-hidden="true">→</span>';
+    err.textContent=''; save();
+  }
+  function check(n){
+    if(n===1){ if(!vals('need').length) return 'Choose at least one option, or "Not sure yet".'; if(!val('brand')) return 'Please add your brand name.'; }
+    if(n===3){
+      if(!val('name')) return 'Please add your name.';
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email'))) return 'Please add a valid email address so we can reply.';
+      if(!document.getElementById('f-consent').checked) return 'Please confirm we may use your details to reply.';
+    }
+    return '';
+  }
+  function focusStep(){var h=steps[cur-1].querySelector('h3');if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}}
+  backBtn.addEventListener('click',function(){if(cur>1){show(cur-1);focusStep()}});
+  form.addEventListener('submit',function(e){
+    e.preventDefault(); var m=check(cur); if(m){err.textContent=m;return}
+    if(cur<total){show(cur+1);focusStep();document.getElementById('request').scrollIntoView({block:'start'});return}
+    submit();
+  });
+  function data(){return {need:vals('need').join(', '),brand:val('brand'),link:val('link'),scope:vals('scope').join(''),start:vals('start').join(''),
+    name:val('name'),email:val('email'),phone:val('phone'),contact:vals('contact').join(''),days:vals('days').join(', '),time:vals('time').join(', '),timezone:tz,message:val('message')}}
+  function summaryText(d){
+    var L=[['Name',d.name],['Email',d.email],['Phone',d.phone],['Brand',d.brand],['Website / Instagram',d.link],['Looking for',d.need],
+      ['Commission',d.scope],['Begin',d.start],['Preferred contact',d.contact],['Days',d.days],['Time of day',d.time],['Time zone',d.timezone],['Message',d.message]];
+    return L.filter(function(x){return x[1]}).map(function(x){return x[0]+': '+x[1]}).join('\n');
+  }
+  function onOwnSite(){var h=location.hostname;return /(^|\.)nudo\.house$/.test(h)||/\.netlify\.app$/.test(h)}
+  function submit(){
+    var d=data(); nextBtn.disabled=true; nextBtn.textContent='Sending…';
+    if(onOwnSite()){
+      fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(Object.assign({'form-name':FORM_NAME},d)).toString()})
+        .then(function(r){if(!r.ok)throw 0;finish(d,true)}).catch(function(){finish(d,false)});
+    } else finish(d,false);
+  }
+  function finish(d,sent){
+    form.hidden=true; var done=document.getElementById('done'); done.hidden=false;
+    var first=(d.name.split(' ')[0]||'');
+    if(sent){
+      document.getElementById('doneTitle').textContent='Thank you'+(first?', '+first:'')+'.';
+      document.getElementById('doneText').textContent='Your request for '+d.brand+' is with us. This is what happens next.';
+      if(BOOKING_URL){document.getElementById('calBtn').href=BOOKING_URL+(BOOKING_URL.indexOf('?')<0?'?':'&')+'name='+encodeURIComponent(d.name)+'&email='+encodeURIComponent(d.email);document.getElementById('calRow').hidden=false}
+      try{localStorage.removeItem('nudo-concierge')}catch(e){}
+    } else {
+      document.getElementById('doneLabel').textContent='One last step';
+      document.getElementById('doneTitle').textContent='Almost there'+(first?', '+first:'')+'.';
+      document.getElementById('doneText').textContent='Send your request to '+STUDIO_EMAIL+' to confirm it. Your answers are ready below.';
+      var t=summaryText(d); document.getElementById('summary').textContent=t;
+      document.getElementById('mailBtn').href='mailto:'+STUDIO_EMAIL+'?subject='+encodeURIComponent('Consultation request — '+d.brand)+'&body='+encodeURIComponent(t+'\n');
+      document.getElementById('fbNote').textContent='If the button does not open your email app, copy the request and send it to '+STUDIO_EMAIL+'.';
+      document.getElementById('fallback').hidden=false;
+    }
+    done.setAttribute('tabindex','-1'); done.focus({preventScroll:true}); document.getElementById('request').scrollIntoView({block:'start'});
+  }
+  function copyText(t,btn,label){function ok(){btn.textContent='Copied';setTimeout(function(){btn.textContent=label},1800)}
+    try{navigator.clipboard.writeText(t).then(ok,function(){btn.textContent='Select and copy the text'})}catch(e){btn.textContent='Select and copy the text'}}
+  document.getElementById('copyBtn').addEventListener('click',function(){copyText(document.getElementById('summary').textContent,this,'Copy request')});
+  document.getElementById('copyEmail').addEventListener('click',function(){copyText(STUDIO_EMAIL,this,'Copy address')});
+  function save(){try{var d=data();d.need=vals('need');d.days=vals('days');d.time=vals('time');localStorage.setItem('nudo-concierge',JSON.stringify(d))}catch(e){}}
+  form.addEventListener('change',save);
+  try{var s=JSON.parse(localStorage.getItem('nudo-concierge')||'null');
+    if(s){['brand','link','name','email','phone','message'].forEach(function(k){var el=form.querySelector('[name="'+k+'"]');if(el&&s[k])el.value=s[k]});
+      ['need','days','time'].forEach(function(k){(s[k]||[]).forEach(function(v){var el=form.querySelector('input[name="'+k+'"][value="'+v+'"]');if(el)el.checked=true})});
+      ['scope','start','contact'].forEach(function(k){if(s[k]){var el=form.querySelector('input[name="'+k+'"][value="'+s[k]+'"]');if(el)el.checked=true}});}
+  }catch(e){}
+  show(1);
+  var bar=document.getElementById('mbar'), req=document.getElementById('request'), op=document.querySelector('.opening');
+  if('IntersectionObserver' in window){var inR=false,inO=true;
+    function upd(){var on=!inR&&!inO;bar.classList.toggle('show',on);bar.setAttribute('aria-hidden',on?'false':'true');bar.querySelector('a').tabIndex=on?0:-1}
+    new IntersectionObserver(function(e){inR=e[0].isIntersecting;upd()},{threshold:0.05}).observe(req);
+    new IntersectionObserver(function(e){inO=e[0].isIntersecting;upd()},{threshold:0.2}).observe(op);}
+})();
+</script>
+</body>
+</html>
