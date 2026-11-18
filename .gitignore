@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# react-email preview
+/.react-email
+
+# documented env, safe to commit
+!.env.example

@@ -3,52 +3,30 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { FormEvent, InputHTMLAttributes } from "react";
 import { flushSync } from "react-dom";
-import { BOOKING_URL, FORM_NAME, STUDIO_EMAIL } from "@/lib/site";
+import { submitConsultation } from "@/app/actions";
+import {
+  CONTACTS,
+  DAYS,
+  EMAIL_PATTERN,
+  NEEDS,
+  SCOPES,
+  STARTS,
+  TIMES,
+  summarize,
+  type ConsultationRequest,
+} from "@/lib/consultation";
+import { BOOKING_URL, STUDIO_EMAIL } from "@/lib/site";
 import { CopyButton } from "./copy-button";
 
 const DRAFT_KEY = "nudo-concierge";
 const STEP_NAMES = ["Your brand", "Your moment", "Your details"];
-
-const NEEDS = [
-  "A new brand identity",
-  "To evolve an existing brand",
-  "A website or online boutique",
-  "Campaign and imagery",
-  "A creative director on call",
-  "Not sure yet",
-];
-const SCOPES = ["A single project", "A complete brand", "An ongoing partnership", "Not sure yet"];
-const STARTS = ["As soon as possible", "In the coming months", "Simply exploring"];
-const CONTACTS = ["Video call", "Phone call", "WhatsApp"];
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-const TIMES = ["Morning", "Afternoon", "Evening"];
+// Hidden from people; bots that fill every field reveal themselves here.
+const HONEYPOT = "company";
 
 type Field = "need" | "brand" | "name" | "email" | "consent";
 type Errors = Partial<Record<Field, string>>;
 // Order in which an invalid field receives focus after a failed step.
 const FIELD_ORDER: Field[] = ["need", "brand", "name", "email", "consent"];
-
-type ConsultationRequest = Record<
-  | "need" | "brand" | "link" | "scope" | "start" | "name" | "email"
-  | "phone" | "contact" | "days" | "time" | "timezone" | "message",
-  string
->;
-
-const SUMMARY_LABELS: [keyof ConsultationRequest, string][] = [
-  ["name", "Name"],
-  ["email", "Email"],
-  ["phone", "Phone"],
-  ["brand", "Brand"],
-  ["link", "Website / Instagram"],
-  ["need", "Looking for"],
-  ["scope", "Commission"],
-  ["start", "Begin"],
-  ["contact", "Preferred contact"],
-  ["days", "Days"],
-  ["time", "Time of day"],
-  ["timezone", "Time zone"],
-  ["message", "Message"],
-];
 
 function validate(step: number, data: FormData): Errors {
   const text = (key: string) => String(data.get(key) ?? "").trim();
@@ -59,7 +37,7 @@ function validate(step: number, data: FormData): Errors {
   }
   if (step === 3) {
     if (!text("name")) errors.name = "Please add your name.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text("email")))
+    if (!EMAIL_PATTERN.test(text("email")))
       errors.email = "Please add a valid email address so we can reply.";
     if (!data.get("consent")) errors.consent = "Please confirm we may use your details to reply.";
   }
@@ -68,7 +46,7 @@ function validate(step: number, data: FormData): Errors {
 
 function toRequest(data: FormData, timezone: string): ConsultationRequest {
   const text = (key: string) => String(data.get(key) ?? "").trim();
-  const list = (key: string) => data.getAll(key).join(", ");
+  const list = (key: string) => data.getAll(key).map(String);
   return {
     need: list("need"),
     brand: text("brand"),
@@ -86,36 +64,10 @@ function toRequest(data: FormData, timezone: string): ConsultationRequest {
   };
 }
 
-function summarize(request: ConsultationRequest) {
-  return SUMMARY_LABELS.filter(([key]) => request[key])
-    .map(([key, label]) => `${label}: ${request[key]}`)
-    .join("\n");
-}
-
-// Netlify Forms only accepts submissions on the deployed site; anywhere else the request goes by email.
-function isOwnSite() {
-  const host = location.hostname;
-  return /(^|\.)nudo\.house$/.test(host) || /\.netlify\.app$/.test(host);
-}
-
-async function send(request: ConsultationRequest) {
-  if (!isOwnSite()) return false;
-  try {
-    const response = await fetch("/__forms.html", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ "form-name": FORM_NAME, ...request }).toString(),
-    });
-    return response.ok;
-  } catch {
-    return false;
-  }
-}
-
 function saveDraft(form: HTMLFormElement) {
   const draft: Record<string, string[]> = {};
   for (const [key, value] of new FormData(form)) {
-    if (key !== "consent") (draft[key] ??= []).push(String(value));
+    if (key !== "consent" && key !== HONEYPOT) (draft[key] ??= []).push(String(value));
   }
   try {
     localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
@@ -316,7 +268,7 @@ export function ConsultationForm() {
 
     const request = toRequest(data, timezone);
     setSending(true);
-    const sent = await send(request);
+    const sent = await submitConsultation(request, data.get(HONEYPOT)).catch(() => false);
     if (sent) clearDraft();
     flushSync(() => setResult({ request, sent }));
     doneRef.current?.focus({ preventScroll: true });
@@ -343,6 +295,11 @@ export function ConsultationForm() {
         </div>
         <div className="bar" aria-hidden="true">
           <i style={{ width: `${(step / total) * 100}%` }} />
+        </div>
+        <div className="trap" aria-hidden="true">
+          <label>
+            Company <input name={HONEYPOT} tabIndex={-1} autoComplete="off" />
+          </label>
         </div>
 
         <div className="step" data-step="1" hidden={step !== 1}>
@@ -457,7 +414,7 @@ export function ConsultationForm() {
           </h3>
           <p>
             {result.sent
-              ? `Your request for ${result.request.brand} is with us. This is what happens next.`
+              ? `Your request for ${result.request.brand} is with us, and a confirmation is on its way to ${result.request.email}. This is what happens next.`
               : `Send your request to ${STUDIO_EMAIL} to confirm it. Your answers are ready below.`}
           </p>
           <ol className="next">

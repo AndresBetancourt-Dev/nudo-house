@@ -539,6 +539,14 @@
     background: var(--rosso);
     transition: width 0.5s;
   }
+  /* the honeypot sits off-screen; some bots skip fields hidden with display: none */
+  .trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
   .step h3 {
     font-family: var(--display);
     font-weight: 400;
