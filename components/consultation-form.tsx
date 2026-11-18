@@ -210,6 +210,7 @@ function TextField({
 
 export function ConsultationForm() {
   const formRef = useRef<HTMLFormElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState<Errors>({});
@@ -222,7 +223,16 @@ export function ConsultationForm() {
     if (formRef.current) restoreDraft(formRef.current);
   }, []);
 
-  function showStep(next: number, { scroll }: { scroll: boolean }) {
+  // Steps differ in height, so the top of the panel can end up above the screen after a change.
+  // Bring it back just below the sticky header, and leave the page alone when it is still in view.
+  function revealPanel() {
+    const panel = panelRef.current;
+    if (!panel) return;
+    const headerClearance = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    if (panel.getBoundingClientRect().top < headerClearance) panel.scrollIntoView({ block: "start" });
+  }
+
+  function showStep(next: number) {
     flushSync(() => {
       setStep(next);
       setErrors({});
@@ -230,7 +240,7 @@ export function ConsultationForm() {
     formRef.current
       ?.querySelector<HTMLElement>(`[data-step="${next}"] h3`)
       ?.focus({ preventScroll: true });
-    if (scroll) document.getElementById("request")?.scrollIntoView({ block: "start" });
+    revealPanel();
   }
 
   function handleChange(event: FormEvent<HTMLFormElement>) {
@@ -262,7 +272,7 @@ export function ConsultationForm() {
       return;
     }
     if (step < total) {
-      showStep(step + 1, { scroll: true });
+      showStep(step + 1);
       return;
     }
 
@@ -272,14 +282,14 @@ export function ConsultationForm() {
     if (sent) clearDraft();
     flushSync(() => setResult({ request, sent }));
     doneRef.current?.focus({ preventScroll: true });
-    document.getElementById("request")?.scrollIntoView({ block: "start" });
+    revealPanel();
   }
 
   const firstName = result?.request.name.split(" ")[0] ?? "";
   const summary = result ? summarize(result.request) : "";
 
   return (
-    <div className="panel">
+    <div className="panel" ref={panelRef}>
       <form
         ref={formRef}
         noValidate
@@ -387,7 +397,7 @@ export function ConsultationForm() {
             className="back"
             type="button"
             hidden={step === 1}
-            onClick={() => showStep(step - 1, { scroll: false })}
+            onClick={() => showStep(step - 1)}
           >
             <span aria-hidden="true">←</span> Back
           </button>
